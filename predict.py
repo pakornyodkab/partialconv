@@ -6,8 +6,9 @@ from PIL import Image
 import torch
 import torch.nn.functional as F
 import torchvision.transforms.functional as TF
+import numpy as np
 
-from src.model import PConvUNet
+from partialconv.src.model import PConvUNet
 
 
 def predict(args):
@@ -48,10 +49,9 @@ def predict(args):
     out = mask * inp + (1 - mask) * raw_out
 
     # Saving an output image
-    print("Saving the output...")
+    print("Send the output...")
     out = TF.to_pil_image(out)
-    img_name = args.img.split("/")[-1]
-    out.save(os.path.join("examples", "out_{}".format(img_name)))
+    return np.array(out)
 
 
 if __name__ == "__main__":
